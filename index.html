@@ -207,19 +207,42 @@
       });
     };
 
-    // Initialize Facebook SDK
-    const initializeFacebookSDK = () => {
-      // Implement Facebook SDK initialization here
-    };
+    function loadFacebookSDK(callback) {
+      if (document.getElementById('facebook-jssdk')) {
+        if (callback) callback();
+        return;
+      }
 
-    // Event listeners
-    document.getElementById('loginBtn').addEventListener('click', handleFacebookLogin);
-    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
-    document.getElementById('listUsersBtn').addEventListener('click', handleListUsers);
-    document.getElementById('getPostsBtn').addEventListener('click', handleGetPosts);
+      var js = document.createElement('script');
+      js.id = 'facebook-jssdk';
+      js.src = 'https://connect.facebook.net/en_US/sdk.js';
 
-    // Initialize the Facebook SDK
-    initializeFacebookSDK();
+      if (callback) {
+        js.onload = callback;
+      }
+
+      document.head.appendChild(js);
+    }
+
+    function initializeFacebookSDK() {
+      window.fbAsyncInit = function() {
+        window.FB.init({
+          appId: 'your-app-id',
+          cookie: true,
+          xfbml: true,
+          version: 'v13.0'
+        });
+
+        document.getElementById('loginBtn').addEventListener('click', handleFacebookLogin);
+        document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+        document.getElementById('listUsersBtn').addEventListener('click', handleListUsers);
+        document.getElementById('getPostsBtn').addEventListener('click', handleGetPosts);
+
+        // Call other Facebook functions here after initialization
+      };
+
+      loadFacebookSDK();
+    }
   </script>
 </body>
 </html>
