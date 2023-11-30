@@ -227,7 +227,7 @@
     function initializeFacebookSDK() {
       window.fbAsyncInit = function() {
         window.FB.init({
-          appId: '723014619420445',
+          appId: 'your-app-id',
           cookie: true,
           xfbml: true,
           version: 'v13.0'
@@ -241,7 +241,10 @@
         // Call other Facebook functions here after initialization
       };
 
-      loadFacebookSDK();
+      loadFacebookSDK(function() {
+        // Delay initializing Facebook SDK to ensure it's fully loaded
+        setTimeout(window.fbAsyncInit, 1000);
+      });
     }
   </script>
 </body>
